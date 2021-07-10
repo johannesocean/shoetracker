@@ -4,7 +4,7 @@ Created on 2021-07-08 16:38
 """
 from kivy.uix.boxlayout import BoxLayout
 from kivymd.theming import ThemableBehavior
-from kivymd.uix.list import OneLineListItem, OneLineIconListItem, MDList
+from kivymd.uix.list import OneLineIconListItem, MDList
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu

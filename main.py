@@ -9,7 +9,6 @@ from settings import *
 from windows import *
 from widgets import *
 from shoe import *
-from pprint import pprint
 
 
 class MainApp(MDApp):
@@ -55,7 +54,6 @@ class MainApp(MDApp):
             ],
         )
         dialog.open()
-        pprint(self.shoes['store']._data)
 
     def show_add_distance_dialog(self):
         dialog = None

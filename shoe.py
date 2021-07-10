@@ -3,7 +3,6 @@ Created on 2021-07-07 17:45
 @author: johannes
 """
 from datetime import datetime
-# from kivy.storage.dictstore import DictStore
 from kivy.storage.jsonstore import JsonStore
 from utils import get_photo_id, get_kilometers, get_miles
 
