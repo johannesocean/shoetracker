@@ -1,0 +1,143 @@
+<DialogContentAddDistance>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDTextField:
+        id: distance_text
+        hint_text: "Distance"
+        helper_text: "Length unit: " + app.get_setting('selected_length_unit')
+        helper_text_mode: "persistent"
+
+<DialogContentAddShoe>
+    orientation: "vertical"
+    spacing: "12dp"
+    size_hint_y: None
+    height: "120dp"
+
+    MDTextField:
+        id: shoe_name
+        hint_text: "Name"
+        helper_text: "Example: Sense Ride 4"
+        helper_text_mode: "persistent"
+
+<IconListItem>
+    IconLeftWidget:
+        icon: root.icon
+
+<ItemDrawer>:
+    theme_text_color: "Custom"
+    text_color: app.theme_cls.primary_color
+    IconLeftWidget:
+        id: icon
+        icon: root.icon
+        theme_text_color: "Custom"
+        text_color: root.text_color
+
+<ContentNavigationDrawer>:
+    orientation: "vertical"
+    padding: "4sp"
+    spacing: "4sp"
+    AnchorLayout:
+        anchor_x: "center"
+        size_hint_y: 0.075
+        #height: avatar.height
+
+    ScrollView:
+        DrawerList:
+            ItemDrawer:
+                id: nav_info
+                text: "App info"
+                icon: 'information'
+            ItemDrawer:
+                id: nav_add_shoe
+                text: "Add new shoe"
+                icon: "shoe-sneaker"
+                #on_press:
+                #    app.root.ids.nav_drawer.set_state("close")
+                #    app.root.ids.screen_manager.current = "cardswin"
+            ItemDrawer:
+                id: nav_statistics
+                text: "Statistics"
+                icon: "chart-bar-stacked"
+                on_press:
+                    app.root.ids.nav_drawer.set_state("close")
+                    app.root.ids.screen_manager.current = "statswin"
+            ItemDrawer:
+                id: nav_settings
+                text: "Settings"
+                icon: "cog"
+                #on_press:
+                #    app.root.ids.nav_drawer.set_state("close")
+                #    app.root.ids.screen_manager.current = "settingswin"
+
+<AppToolbar>:
+    size_hint_y: 0.075
+    anchor_title: 'center'
+    pos_hint: {"top": 1}
+
+RootWindow:
+    id: rootwin
+    name: "rootwin"
+
+    AppToolbar:
+        id: toolbar
+        title: ""
+        elevation: 0
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+        right_action_items: [["home-circle-outline", lambda x: app.switch_to_screen("mainwin")]]
+
+    MDNavigationLayout:
+        id: nav_layout
+        x: toolbar.height
+        elevation: 1
+
+        ScreenManager:
+            id: screen_manager
+            mainwin: mainwin
+            statswin: statswin
+            MainWindow:
+                id: mainwin
+            StatsWindow:
+                id: statswin
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            swipe_edge_width: 0
+            elevation: 0
+
+            ContentNavigationDrawer:
+                id: content_drawer
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+<MainWindow>:
+    name: "mainwin"
+
+    Label:
+        text: "Selected shoe"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+    MDDropDownItem:
+        id: shoe_drop_item
+        text: app.get_setting('selected_shoe')
+        pos_hint: {"center_x": .5, "center_y": .7}
+        on_release: app.open_shoe_menu()
+
+    MDIconButton:
+        id: add_distance_btn
+        icon: "plus-circle-outline"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+        user_font_size: "125sp"
+        elevation_normal: 12
+        on_release:
+            on_release: app.show_add_distance_dialog()
+    Label:
+        text: "Add distance to shoe"
+        pos_hint: {'center_x': 0.5, 'center_y': 0.15}
+
+<StatsWindow>
+    name: "statswin"
+    #on_enter: app.setup_data_table()
+    BoxLayout:
+        id: stats_table

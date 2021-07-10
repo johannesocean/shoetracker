@@ -1,0 +1,17 @@
+{
+    "eng_switch": {
+        "value": true
+    },
+    "swe_switch": {
+        "value": false
+    },
+    "dark_theme_switch": {
+        "value": false
+    },
+    "selected_shoe": {
+        "value": "Arahi4"
+    },
+    "selected_length_unit": {
+        "value": "km"
+    }
+}

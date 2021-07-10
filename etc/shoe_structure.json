@@ -1,0 +1,22 @@
+{
+  "EVO Speedgoat": {
+    "time_of_creation": "2021-07-07 18:08:54",
+    "accumulated_distance_km": 0,
+    "accumulated_distance_miles": 0,
+    "number_of_runs": 0,
+    "photos": [
+      {
+        "name": "photo_1",
+        "time_of_creation": "2021-04-21 14:18:34",
+        "comment": "Taken after 50 km",
+        "path": "/data/photos/name_of_photo_1.jpg"
+      },
+      {
+        "name": "photo_2",
+        "time_of_creation": "2021-07-07 18:08:54",
+        "comment": "After 600 km",
+        "path": "/data/photos/name_of_photo_2.jpg"
+      }
+    ]
+  }
+}
