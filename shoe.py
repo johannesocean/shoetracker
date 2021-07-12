@@ -7,17 +7,17 @@ from kivy.storage.jsonstore import JsonStore
 from utils import get_photo_id, get_kilometers, get_miles
 
 
-class ShoeStore(dict):
-    def load_store(self):
-        self.setdefault('store', JsonStore('data/shoes.json'))
+class ShoeStore:
+    def __init__(self):
+        self.store = JsonStore('data/shoes.json', indent=4)
 
     def _sync_store(self):
-        self['store']._is_changed = True
-        self['store'].store_sync()
+        self.store._is_changed = True
+        self.store.store_sync()
 
     def add_shoe(self, name=None):
         if name:
-            self['store'].put(
+            self.store.put(
                 name,
                 time_of_creation=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 accumulated_distance_km=0,
@@ -27,9 +27,9 @@ class ShoeStore(dict):
             )
 
     def add_photo(self, name=None, path=None):
-        if name in self['store'] and path:
-            _id = get_photo_id(len(self['store'][name]['photos']))
-            self['store']._data[name]['photos'].append({
+        if name in self.store and path:
+            _id = get_photo_id(len(self.store[name]['photos']))
+            self.store._data[name]['photos'].append({
                 'name': '_'.join((name, _id)),
                 'time_of_creation': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 'comment': '',
@@ -42,14 +42,14 @@ class ShoeStore(dict):
         if distance:
             distance = round(float(distance.replace(',', '.')), 2)
         if name:
-            self['store']._data[name]['accumulated_distance_km'] += distance if km else get_kilometers(distance)
-            self['store']._data[name]['accumulated_distance_miles'] += distance if miles else get_miles(distance)
-            self['store']._data[name]['number_of_runs'] += 1
+            self.store._data[name]['accumulated_distance_km'] += distance if km else get_kilometers(distance)
+            self.store._data[name]['accumulated_distance_miles'] += distance if miles else get_miles(distance)
+            self.store._data[name]['number_of_runs'] += 1
             self._sync_store()
 
     def delete_shoe(self, name=None):
         if name:
-            self['store'].delete(name)
+            self.store.delete(name)
 
     @staticmethod
     def _get_shoe_status(km):
@@ -62,18 +62,18 @@ class ShoeStore(dict):
 
     @property
     def shoe_list(self):
-        return sorted(self['store'].keys(), key=lambda v: v.upper())
+        return sorted(self.store.keys(), key=lambda v: v.upper())
 
     @property
     def table_data(self):
         data = [
             (
                 key,
-                str(self['store'][key]['number_of_runs']),
-                str(round(self['store'][key]['accumulated_distance_km'], 1)),
-                str(round(self['store'][key]['accumulated_distance_miles'], 1)),
-                self['store'][key]['time_of_creation'].split()[0],
-                self._get_shoe_status(self['store'][key]['accumulated_distance_km'])
+                str(self.store[key]['number_of_runs']),
+                str(round(self.store[key]['accumulated_distance_km'], 1)),
+                str(round(self.store[key]['accumulated_distance_miles'], 1)),
+                self.store[key]['time_of_creation'].split()[0],
+                self._get_shoe_status(self.store[key]['accumulated_distance_km'])
              )
             for key in self.shoe_list
         ]

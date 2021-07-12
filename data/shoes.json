@@ -1,0 +1,23 @@
+{
+    "hej": {
+        "time_of_creation": "2021-07-12 11:37:33",
+        "accumulated_distance_km": 54.0,
+        "accumulated_distance_miles": 33.55,
+        "number_of_runs": 1,
+        "photos": []
+    },
+    "herrj": {
+        "time_of_creation": "2021-07-12 11:41:22",
+        "accumulated_distance_km": 45.0,
+        "accumulated_distance_miles": 27.96,
+        "number_of_runs": 1,
+        "photos": []
+    },
+    "3hfjh": {
+        "time_of_creation": "2021-07-12 11:42:13",
+        "accumulated_distance_km": 345.0,
+        "accumulated_distance_miles": 214.37,
+        "number_of_runs": 1,
+        "photos": []
+    }
+}

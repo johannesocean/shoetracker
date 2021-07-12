@@ -9,6 +9,7 @@ from settings import *
 from windows import *
 from widgets import *
 from shoe import *
+from utils import *
 
 
 class MainApp(MDApp):
@@ -26,7 +27,6 @@ class MainApp(MDApp):
         self.theme_text_color = list(ThemeTranslator.get('theme_text_color'))
 
         self.shoes = ShoeStore()
-        self.shoes.load_store()
         if not self.shoes.shoe_list:
             self.change_setting('selected_shoe', "No shoe selected")
 
