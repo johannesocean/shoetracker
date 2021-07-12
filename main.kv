@@ -54,9 +54,9 @@
                 id: nav_add_shoe
                 text: "Add new shoe"
                 icon: "shoe-sneaker"
-                #on_press:
-                #    app.root.ids.nav_drawer.set_state("close")
-                #    app.root.ids.screen_manager.current = "cardswin"
+                on_press:
+                    app.root.ids.nav_drawer.set_state("close")
+                    app.show_add_shoe_dialog()
             ItemDrawer:
                 id: nav_statistics
                 text: "Statistics"

@@ -8,6 +8,7 @@ from kivy.properties import ObjectProperty
 
 class RootWindow(Screen):
     mainwin = ObjectProperty()
+    statswin = ObjectProperty()
 
 
 class MainWindow(Screen):
