@@ -124,7 +124,8 @@ class MainApp(MDApp):
         """
         self.data_table = MDDataTable(
             size_hint=(1, .93),
-            use_pagination=True,
+            use_pagination=False,
+            rows_num=20,
             check=False,
             column_data=[
                 ("", dp(1)),
