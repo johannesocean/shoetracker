@@ -26,39 +26,41 @@ class ShoeStore:
                 photos=[],
             )
 
-    def add_photo(self, name=None, path=None):
-        if name in self.store and path:
-            _id = get_photo_id(len(self.store[name]['photos']))
-            self.store._data[name]['photos'].append({
-                'name': '_'.join((name, _id)),
-                'time_of_creation': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                'comment': '',
-                'path': path
-            })
-            self._sync_store()
-
     def add_run(self, name=None, distance=None, miles=False, km=False):
         distance = distance or 0
         if distance:
             distance = round(float(distance.replace(',', '.')), 2)
+            added_run = 1 if distance > 0 else -1
         if name:
             self.store._data[name]['accumulated_distance_km'] += distance if km else get_kilometers(distance)
             self.store._data[name]['accumulated_distance_miles'] += distance if miles else get_miles(distance)
-            self.store._data[name]['number_of_runs'] += 1
+            self.store._data[name]['number_of_runs'] += added_run
             self._sync_store()
+
+    # def add_photo(self, name=None, path=None):
+    #     if name in self.store and path:
+    #         _id = get_photo_id(len(self.store[name]['photos']))
+    #         self.store._data[name]['photos'].append({
+    #             'name': '_'.join((name, _id)),
+    #             'time_of_creation': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+    #             'comment': '',
+    #             'path': path
+    #         })
+    #         self._sync_store()
 
     def delete_shoe(self, name=None):
         if name:
             self.store.delete(name)
 
     @staticmethod
-    def _get_shoe_status(km):
+    def _get_shoe_status(km, name=None):
+        name = name or ""
         if km < 600:
-            return "checkbox-marked-circle", [39 / 256, 174 / 256, 96 / 256, 1], ""
+            return "checkbox-marked-circle", [39 / 256, 174 / 256, 96 / 256, 1], name
         elif km < 900:
-            return "alert", [255 / 256, 165 / 256, 0, 1], ""
+            return "alert", [255 / 256, 165 / 256, 0, 1], name
         else:
-            return "alert-circle", [1, 0, 0, 1], ""
+            return "alert-circle", [1, 0, 0, 1], name
 
     @property
     def shoe_list(self):
@@ -68,15 +70,17 @@ class ShoeStore:
     def table_data(self):
         data = [
             (
-                key,
+                "",
+                self._get_shoe_status(self.store[key]['accumulated_distance_km'], name=key),
                 str(self.store[key]['number_of_runs']),
                 str(round(self.store[key]['accumulated_distance_km'], 1)),
-                str(round(self.store[key]['accumulated_distance_miles'], 1)),
+                # str(round(self.store[key]['accumulated_distance_miles'], 1)),
                 self.store[key]['time_of_creation'].split()[0],
-                self._get_shoe_status(self.store[key]['accumulated_distance_km'])
+                # self._get_shoe_status(self.store[key]['accumulated_distance_km'])
              )
             for key in self.shoe_list
         ]
         if len(data) == 1:
-            data.append(("", "", "", "", "", ""))
+            data.append(("", "", "", "", ""))
+
         return data

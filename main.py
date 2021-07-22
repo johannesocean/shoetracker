@@ -2,7 +2,6 @@
 Created on 2021-07-07 17:14
 @author: johannes
 """
-
 from kivymd.app import MDApp
 from kivy.metrics import dp
 from settings import *
@@ -120,20 +119,24 @@ class MainApp(MDApp):
         menu.open()
 
     def setup_data_table(self):
+        """
+        ("[size=10]Shoe Name[/size]", dp(30)),
+        """
         self.data_table = MDDataTable(
             size_hint=(1, .93),
             use_pagination=True,
             check=False,
             column_data=[
-                ("Shoe Name", dp(30)),
+                ("", dp(1)),
+                ("Name", dp(30)),
                 ("Runs", dp(10)),
                 ("Km", dp(12)),
-                ("Miles", dp(12)),
+                # ("Miles", dp(12)),
                 ("Added", dp(20)),
-                ("Status", dp(10))
+                # ("Status", dp(10))
             ],
             row_data=self.shoes.table_data,
-            sorted_on="Shoe Name",
+            sorted_on="Name",
             # sorted_order="ASC",
             elevation=2
         )

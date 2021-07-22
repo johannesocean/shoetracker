@@ -86,7 +86,7 @@ RootWindow:
         title: ""
         elevation: 0
         left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
-        right_action_items: [["home-circle-outline", lambda x: app.switch_to_screen("mainwin")]]
+        right_action_items: [["chart-bar-stacked", lambda x: app.switch_to_screen("statswin")], ["home-circle-outline", lambda x: app.switch_to_screen("mainwin")]]
 
     MDNavigationLayout:
         id: nav_layout
