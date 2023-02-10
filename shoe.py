@@ -2,14 +2,14 @@
 Created on 2021-07-07 17:45
 @author: johannes
 """
+import json
 from datetime import datetime
-from kivy.storage.jsonstore import JsonStore
 from utils import get_photo_id, get_kilometers, get_miles
 
 
 class ShoeStore:
     def __init__(self):
-        self.store = JsonStore('data/shoes.json', indent=4)
+        self.store = None  # JsonStore('data/shoes.json', indent=4)
 
     def _sync_store(self):
         self.store._is_changed = True
