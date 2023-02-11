@@ -2,21 +2,15 @@
 Created on 2021-07-07 19:35
 @author: johannes
 """
+import base64
+import datetime
 
 
-def get_photo_id(list_len):
-    return "abcdefghijklmnopqrstuvwxyz"[list_len]
+def get_time_now():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-def get_kilometers(miles=None):
-    if miles:
-        return round(miles * 1.609344, 2)
-    else:
-        return 0
-
-
-def get_miles(km=None):
-    if km:
-        return round(km / 1.609344, 2)
-    else:
-        return 0
+def get_base64(image_path):
+    with open(image_path, "rb") as img_file:
+        my_string = base64.b64encode(img_file.read()).decode("utf-8")
+        return my_string

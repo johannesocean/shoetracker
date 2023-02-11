@@ -2,85 +2,69 @@
 Created on 2021-07-07 17:45
 @author: johannes
 """
-from datetime import datetime
-from kivy.storage.jsonstore import JsonStore
-from utils import get_photo_id, get_kilometers, get_miles
+from utils import get_time_now
 
 
-class ShoeStore:
-    def __init__(self):
-        self.store = JsonStore('data/shoes.json', indent=4)
+def get_new_shoe_data(name):
+    return {
+        "name": name,
+        "time_of_creation": get_time_now(),
+        "accumulated_distance_km": 0,
+        "number_of_runs": 0
+    }
 
-    def _sync_store(self):
-        self.store._is_changed = True
-        self.store.store_sync()
 
-    def add_shoe(self, name=None):
-        if name:
-            self.store.put(
-                name,
-                time_of_creation=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                accumulated_distance_km=0,
-                accumulated_distance_miles=0,
-                number_of_runs=0,
-                photos=[],
-            )
+class DataHandler:
+    def __init__(self, page):
+        self.page = page
 
-    def add_run(self, name=None, distance=None, miles=False, km=False):
-        distance = distance or 0
-        if distance:
-            distance = round(float(distance.replace(',', '.')), 2)
-            added_run = 1 if distance > 0 else -1
-        if name:
-            self.store._data[name]['accumulated_distance_km'] += distance if km else get_kilometers(distance)
-            self.store._data[name]['accumulated_distance_miles'] += distance if miles else get_miles(distance)
-            self.store._data[name]['number_of_runs'] += added_run
-            self._sync_store()
+    def add_shoe(self, name: str):
+        if not name:
+            return
+        shoes = self.page.client_storage.get('shoes') or {}
+        shoes.setdefault(name, get_new_shoe_data(name))
+        self.page.client_storage.set('shoes', shoes)
+        self.set_selected_shoe(name)
 
-    # def add_photo(self, name=None, path=None):
-    #     if name in self.store and path:
-    #         _id = get_photo_id(len(self.store[name]['photos']))
-    #         self.store._data[name]['photos'].append({
-    #             'name': '_'.join((name, _id)),
-    #             'time_of_creation': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-    #             'comment': '',
-    #             'path': path
-    #         })
-    #         self._sync_store()
+    def add_distance_to_shoe(self, name: str, distance=None):
+        if not name:
+            return
+        try:
+            distance = float(distance.replace(',', '.'))
+        except ValueError:
+            return
+        shoes = self.page.client_storage.get('shoes')
+        shoes[name]["accumulated_distance_km"] += distance
+        shoes[name]["number_of_runs"] += 1
+        self.page.client_storage.set('shoes', shoes)
 
-    def delete_shoe(self, name=None):
-        if name:
-            self.store.delete(name)
+    def get_shoe(self, name: str):
+        shoes = self.page.client_storage.get('shoes') or {}
+        return shoes.get(name) or {}
 
-    @staticmethod
-    def _get_shoe_status(km, name=None):
-        name = name or ""
-        if km < 600:
-            return "checkbox-marked-circle", [39 / 256, 174 / 256, 96 / 256, 1], name
-        elif km < 900:
-            return "alert", [255 / 256, 165 / 256, 0, 1], name
-        else:
-            return "alert-circle", [1, 0, 0, 1], name
+    def get_all_shoes(self):
+        return self.page.client_storage.get('shoes') or {}
 
-    @property
-    def shoe_list(self):
-        return sorted(self.store.keys(), key=lambda v: v.upper())
+    def get_shoe_list(self):
+        shoes = self.page.client_storage.get('shoes')
+        return list(shoes if shoes else [])
 
-    @property
-    def table_data(self):
-        data = [
-            (
-                "",
-                self._get_shoe_status(self.store[key]['accumulated_distance_km'], name=key),
-                str(self.store[key]['number_of_runs']),
-                str(round(self.store[key]['accumulated_distance_km'], 1)),
-                # str(round(self.store[key]['accumulated_distance_miles'], 1)),
-                self.store[key]['time_of_creation'].split()[0],
-                # self._get_shoe_status(self.store[key]['accumulated_distance_km'])
-             )
-            for key in self.shoe_list
-        ]
-        if len(data) == 1:
-            data.append(("", "", "", "", ""))
+    def get_selected_shoe(self):
+        return self.page.client_storage.get('selected') or ""
 
-        return data
+    def set_selected_shoe(self, name):
+        self.page.client_storage.set('selected', name or "")
+
+    # def delete_shoe(self, name=None):
+    #     if name:
+    #         self.store.delete(name)
+    #
+    # @staticmethod
+    # def _get_shoe_status(km, name=None):
+    #     name = name or ""
+    #     if km < 600:
+    #         return "checkbox-marked-circle", [39 / 256, 174 / 256, 96 / 256, 1], name
+    #     elif km < 900:
+    #         return "alert", [255 / 256, 165 / 256, 0, 1], name
+    #     else:
+    #         return "alert-circle", [1, 0, 0, 1], name
