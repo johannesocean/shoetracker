@@ -2,6 +2,11 @@
 Created on 2021-07-07 19:35
 @author: johannes
 """
+import datetime
+
+
+def get_time_now():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def get_photo_id(list_len):
