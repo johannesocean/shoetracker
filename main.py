@@ -26,7 +26,7 @@ def main(page: ft.Page):
         def get_cell_content(attr, shoe):
             if attr == "name":
                 return ft.Row(
-                    [ft.Icon(name="check_circle", color="green"), ft.Text(shoe.get(attr))],
+                    [ft.Icon(name="check_circle", color="green"), ft.Text(shoe.get(attr), color="black")],
                     alignment=ft.MainAxisAlignment.START
                 )
             else:
@@ -107,11 +107,16 @@ def main(page: ft.Page):
     )
     shoes_dropdown = ft.Dropdown(options=[ft.dropdown.Option(_shoe) for _shoe in data_handler.get_shoe_list()],
                                  value=data_handler.get_selected_shoe(),
+                                 width=200,
                                  on_change=on_dropdown_change,
                                  filled=True,
+                                 color="black",
                                  bgcolor="white"
                                  )
-    add_shoe_button = ft.ElevatedButton("Add new shoe", on_click=open_dlg_modal)
+    add_shoe_button = ft.ElevatedButton("Add",
+                                        icon=ft.icons.ADD_CIRCLE_ROUNDED,
+                                        icon_color="green400",
+                                        on_click=open_dlg_modal)
 
     distance_text = ft.TextField(helper_text="Km - Example: 17.3")
     distance_dlg_modal = ft.AlertDialog(
@@ -167,12 +172,23 @@ def main(page: ft.Page):
     data_table = ft.Row(
         [
             ft.DataTable(
-                columns=[ft.DataColumn(ft.Text(col)) for col in TABLE_COLUMNS],
-                rows=get_table_rows()
+                columns=[
+                    ft.DataColumn(ft.Text(col, color="black"), numeric=True if col in {"Runs", "Km"} else False)
+                    for col in TABLE_COLUMNS
+                ],
+                rows=get_table_rows(),
+                expand=True,
+                column_spacing=10,
+                # width=350,
+                divider_thickness=0,
+                bgcolor="white",
             )
         ], alignment=ft.MainAxisAlignment.CENTER
     )
     stats_page = ft.Container(
+        image_src_base64=get_base64("assets/jogging.png"),
+        image_fit=ft.ImageFit.COVER,
+        expand=True,
         content=ft.Column([app_bar, data_table]),
         alignment=ft.alignment.top_center
     )

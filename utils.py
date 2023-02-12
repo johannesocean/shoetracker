@@ -7,7 +7,7 @@ import datetime
 
 
 def get_time_now():
-    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return datetime.datetime.now().strftime("%Y-%m-%d")
 
 
 def get_base64(image_path):

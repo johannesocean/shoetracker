@@ -1,4 +1,4 @@
-app = "jj-running-shoes"
+app = "jj-shoes"
 
 kill_signal = "SIGINT"
 kill_timeout = 5
