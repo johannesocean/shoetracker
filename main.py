@@ -101,6 +101,7 @@ def main(page: ft.Page):
                                actions=[ft.TextButton("Add", on_click=add_and_close_dlg),
                                         ft.TextButton("Cancel", on_click=close_dlg)],
                                actions_alignment=ft.MainAxisAlignment.END)
+
     shoes_dropdown = ft.Dropdown(options=[ft.dropdown.Option(_shoe) for _shoe in data_handler.get_shoe_list()],
                                  value=data_handler.get_selected_shoe(),
                                  width=200,
@@ -110,6 +111,7 @@ def main(page: ft.Page):
                                  bgcolor="white",
                                  focused_color="black",
                                  focused_bgcolor="white")
+
     add_shoe_button = ft.ElevatedButton("Add",
                                         icon=ft.icons.ADD_CIRCLE_ROUNDED,
                                         icon_color="green400",
