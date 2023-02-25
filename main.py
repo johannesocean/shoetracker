@@ -1,10 +1,6 @@
-"""
-Created on 2021-07-07 17:14
-@author: johannes
-"""
 import flet as ft
 from shoe import DataHandler
-from utils import get_base64
+from utils import get_base64, get_distance_icon
 
 
 TABLE_COLUMNS = {
@@ -16,6 +12,7 @@ TABLE_COLUMNS = {
 
 
 def main(page: ft.Page):
+    page.theme_mode = ft.ThemeMode.DARK
     page.title = "Shoetracker"
     data_handler = DataHandler(page)
 
@@ -26,7 +23,7 @@ def main(page: ft.Page):
         def get_cell_content(attr, shoe):
             if attr == "name":
                 return ft.Row(
-                    [ft.Icon(name="check_circle", color="green"), ft.Text(shoe.get(attr), color="black")],
+                    [get_distance_icon(shoe.get("accumulated_distance_km")), ft.Text(shoe.get(attr), color="black")],
                     alignment=ft.MainAxisAlignment.START
                 )
             else:
@@ -106,17 +103,13 @@ def main(page: ft.Page):
                                  value=data_handler.get_selected_shoe(),
                                  width=200,
                                  on_change=on_dropdown_change,
-                                 filled=True,
-                                 color="black",
-                                 bgcolor="white",
-                                 focused_color="black",
-                                 focused_bgcolor="white")
+                                 filled=True)
 
     add_shoe_button = ft.ElevatedButton("Add",
                                         icon=ft.icons.ADD_CIRCLE_ROUNDED,
                                         icon_color="green400",
                                         on_click=open_dlg_modal)
-
+    # add_shoe_button.text.
     distance_text = ft.TextField(helper_text="Km - Example: 17.3")
     distance_dlg_modal = ft.AlertDialog(modal=True,
                                         title=get_distance_dialog_title(),
@@ -164,13 +157,13 @@ def main(page: ft.Page):
                               expand=True,
                               column_spacing=50,
                               divider_thickness=0,
-                              bgcolor="white")
+                              bgcolor="white"
+                              )
     stats_page = ft.Container(image_src_base64=get_base64("assets/jogging.png"),
                               image_fit=ft.ImageFit.COVER,
                               expand=True,
                               content=ft.Column([app_bar, ft.Row([data_table], alignment=ft.MainAxisAlignment.CENTER)]),
                               alignment=ft.alignment.top_center)
-
     add_item(home_page)
 
 

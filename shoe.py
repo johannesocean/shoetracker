@@ -1,8 +1,4 @@
-"""
-Created on 2021-07-07 17:45
-@author: johannes
-"""
-from db import get_db, write_to_db
+from db import read_from_db, write_to_db
 from utils import get_time_now, thread_process
 
 
@@ -18,13 +14,9 @@ def get_new_shoe_data(name):
 class DataHandler:
     def __init__(self, page):
         self.page = page
-        client_shoes = self.page.client_storage.get('shoes')
-        db = get_db()
-        if db:
-            # FIXME add user
-            db_shoes = db.get('shoes')
-            if client_shoes != db_shoes:
-                self.page.client_storage.set('shoes', db_shoes or {})
+        db_shoes = read_from_db('shoes')
+        # FIXME add user
+        self.page.client_storage.set('shoes', db_shoes or {})
 
     def add_shoe(self, name: str):
         if not name:
@@ -70,13 +62,3 @@ class DataHandler:
     # def delete_shoe(self, name=None):
     #     if name:
     #         self.store.delete(name)
-    #
-    # @staticmethod
-    # def _get_shoe_status(km, name=None):
-    #     name = name or ""
-    #     if km < 600:
-    #         return "checkbox-marked-circle", [39 / 256, 174 / 256, 96 / 256, 1], name
-    #     elif km < 900:
-    #         return "alert", [255 / 256, 165 / 256, 0, 1], name
-    #     else:
-    #         return "alert-circle", [1, 0, 0, 1], name

@@ -1,4 +1,5 @@
 # import redis
+# import pickle
 # import time
 # import os
 # from dotenv import load_dotenv
@@ -12,6 +13,11 @@
 #   password=os.getenv('DB_PASS'),
 #   ssl=True
 # )
-# # start_time = time.time()
-# # print(r.keys())
+# start_time = time.time()
+# print(r.keys())
 # print("Timeit:--%.5f sec" % (time.time() - start_time))
+#
+# # pickle.loads(r.get('shoes'))
+#
+# for key in r.keys():
+#     r.delete(key)
