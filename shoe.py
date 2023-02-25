@@ -11,6 +11,9 @@ def get_new_shoe_data(name):
     }
 
 
+# TODO remove hardcoded colors --> to theme config file.
+
+
 class DataHandler:
     def __init__(self, page):
         self.page = page

@@ -23,11 +23,11 @@ def main(page: ft.Page):
         def get_cell_content(attr, shoe):
             if attr == "name":
                 return ft.Row(
-                    [get_distance_icon(shoe.get("accumulated_distance_km")), ft.Text(shoe.get(attr), color="black")],
+                    [get_distance_icon(shoe.get("accumulated_distance_km")), ft.Text(shoe.get(attr), color="#84a7d3")],
                     alignment=ft.MainAxisAlignment.START
                 )
             else:
-                return ft.Text(shoe.get(attr), color="black")
+                return ft.Text(shoe.get(attr), color="#84a7d3")
         shoes = data_handler.get_all_shoes()
         return [
             ft.DataRow(
@@ -121,8 +121,8 @@ def main(page: ft.Page):
                                             icon=ft.icons.RUN_CIRCLE_ROUNDED,
                                             icon_color="green400",
                                             on_click=open_distance_dlg_modal)
-    app_bar = ft.Row([ft.IconButton(ft.icons.BAR_CHART_SHARP, on_click=lambda _: layout_change("statistic")),
-                      ft.IconButton(ft.icons.HOME_SHARP, on_click=lambda _: layout_change("home"))],
+    app_bar = ft.Row([ft.IconButton(ft.icons.BAR_CHART_SHARP, icon_color="#202429", on_click=lambda _: layout_change("statistic")),
+                      ft.IconButton(ft.icons.HOME_SHARP, icon_color="#202429", on_click=lambda _: layout_change("home"))],
                      alignment=ft.MainAxisAlignment.END)
     home_page = ft.Container(
         image_src_base64=get_base64("assets/jogging.png"),
@@ -151,13 +151,13 @@ def main(page: ft.Page):
             ]
         )
     )
-    data_table = ft.DataTable(columns=[ft.DataColumn(ft.Text(col, color="black"), numeric=True if col in {"Runs", "Km"} else False)
+    data_table = ft.DataTable(columns=[ft.DataColumn(ft.Text(col, color="#84a7d3"), numeric=True if col in {"Runs", "Km"} else False)
                                        for col in TABLE_COLUMNS],
                               rows=get_table_rows(),
                               expand=True,
                               column_spacing=50,
                               divider_thickness=0,
-                              bgcolor="white"
+                              bgcolor="#202429"
                               )
     stats_page = ft.Container(image_src_base64=get_base64("assets/jogging.png"),
                               image_fit=ft.ImageFit.COVER,
