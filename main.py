@@ -7,7 +7,7 @@ TABLE_COLUMNS = {
     "Name": "name",
     "Runs": "number_of_runs",
     "Km": "accumulated_distance_km",
-    "Added": "time_of_creation"
+    # "Added": "time_of_creation"
 }
 
 
